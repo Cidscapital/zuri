@@ -1,26 +1,22 @@
 <?php
-//     create a class called `Dbh` with the following properties hostname,  username, password, dbname
+//     create a class called Dbh with the following properties hostname,  username, password, dbname
 
 class Dbh{
     private $host = "localhost";
     private $user = "root";
     private $pwd = "";
     private $dbname = "zuriphp";
-
-    protected $connect;
- 
-    public function __construct(){
- 
-        if (!isset($this->connect)) {
- 
-            $this->connect = new mysqli($this->host, $this->username, $this->password, $this->database);
- 
-            if (!$this->connect) {
-                echo 'Cannot connect to database server';
-                exit;
-            }            
-        }    
- 
+    private $conn;
+    
+    public function connect(){
+        $this->conn = null;
+        try{
+            $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->dbname, $this->user, $this->pwd);
+            $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+        } catch(PDOException $e){
+            echo "Connection error: " . $e->getMessage();
+        }
+        return $this->conn;
     }
 }
 
