@@ -6,7 +6,7 @@ class Dbh{
     private $user = "root";
     private $pwd = "";
     private $dbname = "zuriphp";
-    private $conn;
+    protected $conn;
     
     public function connect(){
         $this->conn = null;
